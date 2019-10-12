@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+import argparse, sys
+from moviepy.editor import *
+import glob
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--dry-run', help='no state change')
+args = parser.parse_args()
+DRY_RUN = args.dry_run
+
+def main():
+    sources = glob.glob('src/*.mp4') 
+    for video in sources:
+        video = video.split('/')[1]
+        print(f'processing {video}')
+        clip = (VideoFileClip(f'src/{video}')
+               .resize(0.2))
+
+        clip.write_gif(f'out/{video}.gif')
+        print(f'done {video}')
+
+if __name__ == '__main__':
+    main()
